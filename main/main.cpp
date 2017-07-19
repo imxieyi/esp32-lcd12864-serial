@@ -9,8 +9,10 @@
 
 #include "lcd12864.hpp"
 
+
+// 
 static void lcd_task(void *pvParameters) {
-    LCD12864 lcd(GPIO_NUM_16, GPIO_NUM_17, GPIO_NUM_18, GPIO_NUM_19, GPIO_NUM_23);
+    LCD12864 lcd(GPIO_NUM_17, GPIO_NUM_18, GPIO_NUM_19);
 
     lcd.init();
     lcd.clear();
@@ -22,7 +24,10 @@ static void lcd_task(void *pvParameters) {
     lcd.putstr("3.Thrid item");
     lcd.setpos(3, 0);
     lcd.putstr("4.Fourth item");
-
+    vTaskDelay(100);
+    lcd.clear();
+    lcd.setpos(0, 0);
+    lcd.putstr("1.First item");
     vTaskDelete(0);
 }
 

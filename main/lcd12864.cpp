@@ -1,21 +1,35 @@
 #include "lcd12864.hpp"
 
-#define CS0 gpio_set_level(cs, 0)
-#define CS1 gpio_set_level(cs, 1)
+#define CS0 if(!this -> simple_mode) gpio_set_level(cs, 0)
+#define CS1 if(!this -> simple_mode) gpio_set_level(cs, 1)
 #define SID0 gpio_set_level(sid, 0)
 #define SID1 gpio_set_level(sid, 1)
 #define SCLK0 gpio_set_level(sclk, 0)
 #define SCLK1 gpio_set_level(sclk, 1)
 #define RST0 gpio_set_level(rst, 0)
 #define RST1 gpio_set_level(rst, 1)
-#define CH0 gpio_set_level(ch, 0)
-#define CH1 gpio_set_level(ch, 1)
+#define CH0 if(!this -> simple_mode) gpio_set_level(ch, 0)
+#define CH1 if(!this -> simple_mode) gpio_set_level(ch, 1)
 
 void delay(int t) {
     ets_delay_us(t * 100);
 }
+LCD12864::LCD12864(gpio_num_t sid, gpio_num_t sclk, gpio_num_t rst) {
+    this -> simple_mode = true;
+    this -> sid = sid;
+    this -> sclk = sclk;
+    this -> rst = rst;
+    gpio_set_pull_mode(sid, GPIO_PULLUP_ONLY);
+    gpio_set_pull_mode(sclk, GPIO_PULLUP_ONLY);
+    gpio_set_pull_mode(rst, GPIO_PULLUP_ONLY);
+    gpio_set_direction(sid, GPIO_MODE_OUTPUT);
+    gpio_set_direction(sclk, GPIO_MODE_OUTPUT);
+    gpio_set_direction(rst, GPIO_MODE_OUTPUT);
+
+}
 
 LCD12864::LCD12864(gpio_num_t cs, gpio_num_t sid, gpio_num_t sclk, gpio_num_t rst, gpio_num_t ch) {
+    this -> simple_mode = false;
     this -> cs = cs;
     this -> sid = sid;
     this -> sclk = sclk;
