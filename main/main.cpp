@@ -10,7 +10,7 @@
 #include "lcd12864.hpp"
 
 
-// 
+// GPIO_NUM_17 => sid , GPIO_NUM_18 => sclk, GPIO_NUM_19 => rst
 static void lcd_task(void *pvParameters) {
     LCD12864 lcd(GPIO_NUM_17, GPIO_NUM_18, GPIO_NUM_19);
 
